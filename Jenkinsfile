@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('dockerhub-credentials')
-        DOCKER_IMAGE = "amogh69/reactproject"
+        DOCKER_HUB_CREDENTIALS = credentials('dockerhub-credentials')  // Ensure the credentials ID is correct
+        DOCKER_IMAGE = "amogh69/reactproject"  // Docker image name (ensure it's correct)
     }
     stages {
         stage('Checkout') {
@@ -13,15 +13,17 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    docker.build(DOCKER_IMAGE)
+                    docker.build(DOCKER_IMAGE)  // Build the Docker image
                 }
             }
         }
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKER_HUB_CREDENTIALS') {
-                        docker.image(DOCKER_IMAGE).push("latest")
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_HUB_CREDENTIALS) {
+                        docker.image(DOCKER_IMAGE).push("latest")  // Push image with "latest" tag
+                        // Optional: You can also tag with the commit hash or version
+                        // docker.image(DOCKER_IMAGE).push("${env.GIT_COMMIT}")
                     }
                 }
             }
@@ -29,8 +31,9 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    sh "kubectl apply -f k8s-deployment.yaml"
-                    sh "kubectl apply -f k8s-service.yaml"
+                    // Make sure kubectl is configured and authenticated
+                    sh "kubectl apply -f k8s-deployment.yaml"  // Apply Kubernetes deployment
+                    sh "kubectl apply -f k8s-service.yaml"  // Apply Kubernetes service
                 }
             }
         }
