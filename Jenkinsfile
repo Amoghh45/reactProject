@@ -2,12 +2,12 @@ pipeline {
     agent any
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('dockerhub-credentials')
-        DOCKER_IMAGE = "your-dockerhub-username/react-jenkins-docker-k8s"
+        DOCKER_IMAGE = "amogh69/reactproject"
     }
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-username/react-jenkins-docker-k8s.git'
+                git branch: 'main', url: 'https://github.com/Amoghh45/reactProject.git'
             }
         }
         stage('Build') {
