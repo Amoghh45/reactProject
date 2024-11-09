@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clone the repository
-                git branch: 'main', url: 'https://github.com/Amoghh45/devops.git'
+                git branch: 'main', url: 'https://github.com/Amoghh45/reactProject.git'
             }
         }
 
